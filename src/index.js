@@ -6,12 +6,13 @@ const kafka = require("kafka-node");
 const faker = require("faker");
 const args = require("minimist")(process.argv.slice(2));
 
-const { topic, seconds, host, limit } = args;
+const { topic, seconds, host, limit, start } = args;
 
 const INTERVAL = seconds ? seconds + " seconds" : process.env["fake.interval"];
 const TOPIC = topic ? topic : process.env["fake.kafka.topic"];
 const HOST = host ? host : process.env["kafka.host"];
-const LIMIT = limit || 5;
+const START = parseInt(start) || 0;
+const LIMIT = (parseInt(limit) || 1000) + START;
 let run;
 
 if (!INTERVAL || !TOPIC) {
@@ -54,7 +55,7 @@ const sendFakeData = count => {
   }
 };
 
-let count = 0;
+let count = START;
 producer.on("ready", () => {
   run = setInterval(() => {
     sendFakeData(++count);

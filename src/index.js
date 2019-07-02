@@ -43,11 +43,11 @@ const sendFakeData = count => {
     logger.info(JSON.stringify(payloads));
     if (count === LIMIT) {
       clearInterval(run);
-      logger.info("Wait 10 seconds before exit application...");
+      logger.info("Wait 2 seconds before exit application...");
       setTimeout(() => {
         logger.info("Exit app");
         process.exit(0);
-      }, 10000);
+      }, 2000);
     }
   } catch (error) {
     logger.error(error.message);
